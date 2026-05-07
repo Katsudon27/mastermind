@@ -20,13 +20,13 @@ class GameBoard
   end
 
   def place_guess(guess_num, guess)
-    guess.split("").each_with_index do |digit, index|
+    guess.each_with_index do |digit, index|
       @board[guess_num - 1][:guess][index] = "\u25CF".colorize(@color_pegs[digit])
     end
   end
 
   def place_feedback(guess_num, feedback)
-    feedback.split("").each_with_index do |digit, index|
+    feedback.each_with_index do |digit, index|
       @board[guess_num - 1][:feedback][index] = "\u25C9".colorize(@feedback_pegs[digit])
     end
   end
