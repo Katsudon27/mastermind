@@ -14,6 +14,8 @@ class GameBoard
   end
 
   def print_board
+    puts "---------------------------------------"
+    puts " Colour |   Key"
     @board.each do |board_row|
       puts board_row.flat_map {|key,value| [value]}.join(" ")
     end
