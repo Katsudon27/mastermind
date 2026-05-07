@@ -26,4 +26,35 @@ class Game
   def check_win?(guess, answer)
     guess == answer ? true : false
   end
+
+  def play_round(answer)
+    guess = @code_guesser.makeGuess
+    feedback = evaluate_guess(guess, answer)
+    @number_of_guesses += 1
+    @game_board.place_guess(@number_of_guesses, guess)
+    @game_board.place_feedback(@number_of_guesses, feedback)
+    guess
+  end
+
+  def start_game
+    answer = @code_maker.generateCode
+
+    loop do
+      @game_board.print_board
+
+      guess = play_round(answer)
+
+      if check_win?(guess, answer)
+        @game_board.print_board
+        puts "Congratulations! The #{@code_guesser} has won the game!"
+        break
+      elsif @number_of_guesses == 12
+        @game_board.print_board
+        puts "The #{@code_guesser} has run out of guesses. The #{@code_maker} has won the game!"
+        break
+      end
+    end
+
+    puts "GAME OVER"
+  end
 end
