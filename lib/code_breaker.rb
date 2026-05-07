@@ -1,6 +1,4 @@
-require_relative "player"
-
-class CodeGuesser < Player
+class CodeBreaker
   def makeGuess
     loop do
       puts "Select 4 colours by typing in the corresponding numbers as your guess:"
@@ -15,6 +13,6 @@ class CodeGuesser < Player
   end
 
   def to_s
-    "Code Guesser"
+    "Code Breaker"
   end
 end
