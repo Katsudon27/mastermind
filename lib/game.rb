@@ -102,8 +102,7 @@ class Game
     print "\n"
   end
 
-  def start_game
-    print_instructions
+  def assign_player_role
     loop do
       print "Choose your role - [1] or [2] : "
       @player_role = gets.chomp
@@ -122,8 +121,11 @@ class Game
       @code_breaker = CodeBreaker.new
       print_breaker_instructions
     end
+  end
 
-    @answer = @code_maker.generate_code
+  def start_game
+    print_instructions
+    assign_player_role
 
     loop do
       @game_board.print_board
