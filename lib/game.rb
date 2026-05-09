@@ -6,26 +6,27 @@ require_relative "human_code_maker"
 require_relative "comp_code_breaker"
 
 class Game
-  def initialize()
-    @game_board = GameBoard.new()
+  def initialize
+    @game_board = GameBoard.new
     @number_of_guesses = 0
     @player_role = "0"
     @answer = []
     @feedback = ""
-    @colours = {:red => "\u278A", :green => "\u2777", :yellow => "\u2778", :blue => "\u2779", :cyan => "\u277A", :magenta => "\u277B"}
+    @colours = { red: "\u278A", green: "\u2777", yellow: "\u2778", blue: "\u2779", cyan: "\u277A",
+                 magenta: "\u277B" }
   end
 
   def evaluate_guess(guess)
     feedback = []
-    if check_win?(guess)
-      return ["1", "1", "1", "1"]
-    end
+    return %w[1 1 1 1] if check_win?(guess)
+
     guess.each_with_index do |digit, index|
       if @answer[index] == digit
         feedback << "1"
       elsif @answer.include?(digit)
-        if guess.count(digit) >= 2 
+        if guess.count(digit) >= 2
           next unless @answer.count(digit) == guess.count(digit)
+
           feedback << "2"
         end
         feedback << "2"
@@ -35,19 +36,19 @@ class Game
   end
 
   def check_win?(guess)
-    guess == @answer ? true : false
+    guess == @answer
   end
 
   def play_round
     print_colours
-    guess = @code_breaker.makeGuess(@feedback)
+    guess = @code_breaker.make_guess(@feedback)
     @feedback = evaluate_guess(guess)
     @number_of_guesses += 1
     @game_board.place_guess(@number_of_guesses, guess)
     @game_board.place_feedback(@number_of_guesses, @feedback)
     guess
   end
-  
+
   def print_instructions
     puts "---------------------------------------"
     puts "Welcome to MASTERMIND"
@@ -86,7 +87,7 @@ class Game
   def print_colours
     print "Available colours:"
     @colours.each do |colour, symbol|
-      print (" " + symbol).colorize(colour)
+      print " #{symbol}".colorize(colour)
     end
     print "\n"
   end
@@ -95,9 +96,7 @@ class Game
     print "Revealing the secret code:"
     @answer.each do |digit|
       @colours.each_with_index do |(colour, symbol), index|
-        if index == digit.to_i - 1
-          print (" " + symbol).colorize(colour)
-        end
+        print " #{symbol}".colorize(colour) if index == digit.to_i - 1
       end
     end
     print "\n"
@@ -105,13 +104,14 @@ class Game
 
   def start_game
     print_instructions
-    loop do 
+    loop do
       print "Choose your role - [1] or [2] : "
       @player_role = gets.chomp
       break if @player_role == "1" || @player_role == "2"
+
       puts "Invalid input: Please try again"
     end
-    
+
     case @player_role
     when "1"
       @code_maker = HumanCodeMaker.new
@@ -123,11 +123,11 @@ class Game
       print_breaker_instructions
     end
 
-    @answer = @code_maker.generateCode
+    @answer = @code_maker.generate_code
 
     loop do
       @game_board.print_board
-      guess = play_round()
+      guess = play_round
       if check_win?(guess)
         @game_board.print_board
         puts "Congratulations! The #{@code_breaker} has won the game!"

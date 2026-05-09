@@ -1,12 +1,10 @@
 class CodeBreaker
-  def makeGuess(feedback = "")
+  def make_guess(_feedback = "")
     loop do
       puts "Select 4 colours by typing in the corresponding numbers as your guess:"
-      input = gets.chomp.to_s.split("")
+      input = gets.chomp.to_s.chars
 
-      if (input - ("1".."6").to_a).empty? && input.length == 4
-        return input
-      end
+      return input if (input - ("1".."6").to_a).empty? && input.length == 4
 
       puts "Invalid input: Please try again"
     end

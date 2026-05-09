@@ -2,21 +2,21 @@ require "colorize"
 
 class GameBoard
   def initialize
-    @board = Array.new(12) { Hash.new }
+    @board = Array.new(12) { {} }
     @board.each do |board_row|
       board_row[:guess] = Array.new(4, "\u25EF").push "|"
       board_row[:feedback] = Array.new(4, "\u25CC")
     end
 
     @color_pegs = { "1" => :red, "2" => :green, "3" => :yellow, "4" => :blue, "5" => :cyan, "6" => :magenta }
-    @feedback_pegs = { "1" => :red, "2" => :white}
+    @feedback_pegs = { "1" => :red, "2" => :white }
   end
 
   def print_board
     puts "---------------------------------------"
     puts " Colour |   Key"
     @board.each do |board_row|
-      puts board_row.flat_map {|key,value| [value]}.join(" ")
+      puts board_row.flat_map { |_key, value| [value] }.join(" ")
     end
   end
 
