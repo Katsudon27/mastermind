@@ -26,7 +26,6 @@ class ComputerCodeBreaker < CodeBreaker
         end
         if feedback.sort != temp_feedback.sort
           @possible_combos.delete(combo) 
-          puts "Deleted combo: #{combo}"
         end
         temp_feedback = []
       end
