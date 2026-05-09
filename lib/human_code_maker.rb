@@ -1,5 +1,6 @@
 require_relative "code_maker"
 
+# A class for the human version of the Code Maker that prompts the player to create a code
 class HumanCodeMaker < CodeMaker
   def generate_code
     loop do

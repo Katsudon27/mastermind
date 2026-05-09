@@ -5,6 +5,7 @@ require_relative "game_board"
 require_relative "human_code_maker"
 require_relative "comp_code_breaker"
 
+# A class that controls the logic and gameplay of the Mastermind game
 class Game
   def initialize
     @game_board = GameBoard.new
@@ -17,13 +18,16 @@ class Game
   end
 
   def evaluate_guess(guess)
+    # Evaluate the guess made by the code breaker
     feedback = []
     return %w[1 1 1 1] if check_win?(guess)
 
     guess.each_with_index do |digit, index|
+      # Add a red peg (1) if the guessed peg is in the correct position + correct colour
       if @answer[index] == digit
         feedback << "1"
       elsif @answer.include?(digit)
+        # Add a white peg (2) if the guessed peg is in the wrong position + correct colour
         if guess.count(digit) >= 2
           next unless @answer.count(digit) == guess.count(digit)
 
@@ -140,6 +144,7 @@ class Game
         break
       end
     end
+
     print_answer
     puts "GAME OVER"
   end

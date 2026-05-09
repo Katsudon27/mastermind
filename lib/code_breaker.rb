@@ -1,3 +1,4 @@
+# A base class for the Code Breaker with human player making the guess
 class CodeBreaker
   def make_guess(_feedback = "")
     loop do
