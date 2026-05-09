@@ -1,7 +1,6 @@
 require "colorize"
 
 class GameBoard
-
   def initialize
     @board = Array.new(12) { Hash.new }
     @board.each do |board_row|

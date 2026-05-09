@@ -10,21 +10,22 @@ class Game
     @game_board = GameBoard.new()
     @number_of_guesses = 0
     @player_role = "0"
+    @answer = []
     @feedback = ""
     @colours = {:red => "\u278A", :green => "\u2777", :yellow => "\u2778", :blue => "\u2779", :cyan => "\u277A", :magenta => "\u277B"}
   end
 
-  def evaluate_guess(guess, answer)
+  def evaluate_guess(guess)
     feedback = []
-    if check_win?(guess, answer)
+    if check_win?(guess)
       return ["1", "1", "1", "1"]
     end
     guess.each_with_index do |digit, index|
-      if answer[index] == digit
+      if @answer[index] == digit
         feedback << "1"
-      elsif answer.include?(digit)
+      elsif @answer.include?(digit)
         if guess.count(digit) >= 2 
-          next unless answer.count(digit) == guess.count(digit)
+          next unless @answer.count(digit) == guess.count(digit)
           feedback << "2"
         end
         feedback << "2"
@@ -33,14 +34,14 @@ class Game
     feedback.shuffle
   end
 
-  def check_win?(guess, answer)
-    guess == answer ? true : false
+  def check_win?(guess)
+    guess == @answer ? true : false
   end
 
-  def play_round(answer)
+  def play_round
     print_colours
     guess = @code_breaker.makeGuess(@feedback)
-    @feedback = evaluate_guess(guess, answer)
+    @feedback = evaluate_guess(guess)
     @number_of_guesses += 1
     @game_board.place_guess(@number_of_guesses, guess)
     @game_board.place_feedback(@number_of_guesses, @feedback)
@@ -84,8 +85,20 @@ class Game
 
   def print_colours
     print "Available colours:"
-    @colours.each do |colour, value|
-      print (" " + value).colorize(colour)
+    @colours.each do |colour, symbol|
+      print (" " + symbol).colorize(colour)
+    end
+    print "\n"
+  end
+
+  def print_answer
+    print "Revealing the secret code:"
+    @answer.each do |digit|
+      @colours.each_with_index do |(colour, symbol), index|
+        if index == digit.to_i - 1
+          print (" " + symbol).colorize(colour)
+        end
+      end
     end
     print "\n"
   end
@@ -110,12 +123,12 @@ class Game
       print_breaker_instructions
     end
 
-    answer = @code_maker.generateCode
+    @answer = @code_maker.generateCode
 
     loop do
       @game_board.print_board
-      guess = play_round(answer)
-      if check_win?(guess, answer)
+      guess = play_round()
+      if check_win?(guess)
         @game_board.print_board
         puts "Congratulations! The #{@code_breaker} has won the game!"
         break
@@ -125,7 +138,7 @@ class Game
         break
       end
     end
-
+    print_answer
     puts "GAME OVER"
   end
 end
