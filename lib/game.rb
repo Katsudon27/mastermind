@@ -11,6 +11,7 @@ class Game
     @number_of_guesses = 0
     @player_role = "0"
     @feedback = ""
+    @colours = {:red => "\u278A", :green => "\u2777", :yellow => "\u2778", :blue => "\u2779", :cyan => "\u277A", :magenta => "\u277B"}
   end
 
   def evaluate_guess(guess, answer)
@@ -83,12 +84,10 @@ class Game
 
   def print_colours
     print "Available colours:"
-    print " \u278A".colorize(:red)
-    print " \u2777".colorize(:green)
-    print " \u2778".colorize(:yellow)
-    print " \u2779".colorize(:blue)
-    print " \u277A".colorize(:cyan)
-    print " \u277B \n".colorize(:magenta)
+    @colours.each do |colour, value|
+      print (" " + value).colorize(colour)
+    end
+    print "\n"
   end
 
   def start_game
