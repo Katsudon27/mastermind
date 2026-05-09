@@ -10,6 +10,7 @@ class Game
     @game_board = GameBoard.new()
     @number_of_guesses = 0
     @player_role = "0"
+    @feedback = ""
   end
 
   def evaluate_guess(guess, answer)
@@ -18,8 +19,14 @@ class Game
       return ["1", "1", "1", "1"]
     end
     guess.each_with_index do |digit, index|
-      if answer.include?(digit)
-        answer.index(digit) == index ? feedback << "1" : feedback << "2"
+      if answer[index] == digit
+        feedback << "1"
+      elsif answer.include?(digit)
+        if guess.count(digit) >= 2 
+          next unless answer.count(digit) == guess.count(digit)
+          feedback << "2"
+        end
+        feedback << "2"
       end
     end
     feedback.shuffle
@@ -31,11 +38,11 @@ class Game
 
   def play_round(answer)
     print_colours
-    guess = @code_breaker.makeGuess
-    feedback = evaluate_guess(guess, answer)
+    guess = @code_breaker.makeGuess(@feedback)
+    @feedback = evaluate_guess(guess, answer)
     @number_of_guesses += 1
     @game_board.place_guess(@number_of_guesses, guess)
-    @game_board.place_feedback(@number_of_guesses, feedback)
+    @game_board.place_feedback(@number_of_guesses, @feedback)
     guess
   end
   
