@@ -34,10 +34,10 @@ class ComputerCodeBreaker < CodeBreaker
 
         # Remove combinations that would not yield the same feedback as the previous guess
         @possible_combos.delete(combo) if feedback.sort != temp_feedback.sort
+        temp_feedback = []
       end
       @guess = @possible_combos[0]
     end
-
     @guess
   end
 end

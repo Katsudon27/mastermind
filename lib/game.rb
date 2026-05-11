@@ -131,6 +131,8 @@ class Game
     print_instructions
     assign_player_role
 
+    @answer = @code_maker.generate_code
+
     loop do
       @game_board.print_board
       guess = play_round
