@@ -22,5 +22,10 @@ A console-based Mastermind game made with OOP in Ruby.
     4. Select the first element in the updated list as the new guess.
     5. Repeat steps 3 and 4.
 
+## Demo videos
+- I made a few short demo videos of the gameplay with asciinema
+    - Code Maker gameplay: https://asciinema.org/a/QHKbi8TYTF1f2JyK
+    - Code Breaker gameplay: https://asciinema.org/a/jz78ngVv0bjfKAAW
+
 ## Usage instruction
     `ruby main.rb`
